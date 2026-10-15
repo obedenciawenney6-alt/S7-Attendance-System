@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Siete Seven Repair | Attendance</title>
+<style>
+:root{--red:#e11d2e;--dark:#111318;--panel:#1b1e25;--muted:#aeb4c0;--line:#303541;--white:#f7f8fa}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#0c0e12;color:var(--white);min-height:100vh}
+button,input{font:inherit}button{cursor:pointer;border:0;border-radius:9px;padding:11px 15px;font-weight:700}
+.primary{background:var(--red);color:white}.secondary{background:#303541;color:white}.danger{background:#6d2028;color:#fff}
+.page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.login-card{width:min(430px,100%);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:30px;box-shadow:0 20px 60px #0008}
+.brand{text-align:center;margin-bottom:26px}.logo{width:70px;height:70px;display:grid;place-items:center;margin:0 auto 13px;background:var(--red);border-radius:18px;font-weight:900;font-size:22px;letter-spacing:-2px}.brand h1{margin:0;font-size:23px;letter-spacing:.5px}.brand p{color:var(--muted);margin:8px 0 0;font-size:13px}
+.field{display:block;margin:15px 0}.field span{display:block;font-size:13px;color:#d7d9df;margin-bottom:7px}.field input{width:100%;background:#111318;color:white;border:1px solid var(--line);padding:13px;border-radius:9px;outline:none}.field input:focus{border-color:var(--red)}
+.wide{width:100%;margin-top:8px}.hint{font-size:12px;line-height:1.6;color:var(--muted);background:#12141a;padding:12px;border-radius:9px;margin-top:18px}.error{color:#ff8d96;font-size:13px;min-height:18px;margin-top:10px}
+.hidden{display:none!important}.app{max-width:1200px;margin:0 auto;padding:24px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:18px 0;border-bottom:1px solid var(--line);margin-bottom:22px}.topbrand{display:flex;align-items:center;gap:12px}.topbrand .logo{width:45px;height:45px;margin:0;border-radius:12px;font-size:16px}.topbrand h1{font-size:19px;margin:0}.topbrand p{font-size:12px;color:var(--muted);margin:4px 0 0}.top-actions{display:flex;gap:8px;flex-wrap:wrap}.welcome{color:var(--muted);font-size:13px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;min-width:0}.panel h2{margin:0 0 7px;font-size:19px}.sub{color:var(--muted);font-size:13px;margin:0 0 18px;line-height:1.5}
+.preview{width:100%;max-height:260px;object-fit:contain;background:#111318;border:1px dashed var(--line);border-radius:10px;margin-top:10px}.status{padding:12px;border-radius:10px;background:#151820;color:#d8dbe2;font-size:13px;line-height:1.5;margin-top:14px}
+.statgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:18px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px}.stat strong{display:block;font-size:26px;margin-bottom:5px}.stat span{color:var(--muted);font-size:12px}
+.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:700px}th,td{text-align:left;padding:13px 12px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:middle}th{color:#c4c8d1;font-size:12px;text-transform:uppercase;letter-spacing:.5px}td img{width:52px;height:52px;object-fit:cover;border-radius:8px;background:#111318}.table-tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.table-tools input{flex:1;min-width:180px;background:#111318;color:white;border:1px solid var(--line);border-radius:9px;padding:11px}.empty{text-align:center;color:var(--muted);padding:30px}.pill{display:inline-block;border-radius:99px;padding:5px 8px;font-size:11px;background:#233c2e;color:#9ce5b4}.notice{font-size:12px;color:var(--muted);line-height:1.6;margin-top:18px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.app{padding:15px}.panel{padding:17px}.statgrid{grid-template-columns:1fr 1fr}.stat:last-child{grid-column:1/-1}.topbar{align-items:flex-start}}
+</style>
+</head>
+<body>
+<section id="loginPage" class="page">
+  <div class="login-card">
+    <div class="brand"><div class="logo">S7</div><h1>SIETE SEVEN REPAIR</h1><p>Employee Attendance Management</p></div>
+    <form id="loginForm">
+      <label class="field"><span>Username</span><input id="username" autocomplete="username" required placeholder="Enter username"></label>
+      <label class="field"><span>Password</span><input id="password" type="password" autocomplete="current-password" required placeholder="Enter password"></label>
+      <button class="primary wide" type="submit">Log In</button><div id="loginError" class="error"></div>
+    </form>
+    <div class="hint"><strong>Demo accounts</strong><br>Admin: <code>admin</code> / <code>S7Admin2026!</code><br>Employee: <code>staff</code> / <code>Staff2026!</code><br><br>Change these demo credentials before using the page for anything real.</div>
+  </div>
+</section>
+<section id="appPage" class="app hidden">
+  <header class="topbar">
+    <div class="topbrand"><div class="logo">S7</div><div><h1>SIETE SEVEN REPAIR</h1><p>Attendance Management System</p></div></div>
+    <div class="top-actions"><span id="roleBadge" class="pill">Employee</span><button class="secondary" id="logoutBtn">Log Out</button></div>
+  </header>
+  <p class="welcome" id="welcomeText"></p>
+  <div id="employeeView">
+    <div class="grid">
+      <div class="panel">
+        <h2>Record Attendance</h2><p class="sub">Confirm your name and upload a photo to save an attendance entry.</p>
+        <form id="attendanceForm">
+          <label class="field"><span>Employee Name</span><input id="employeeName" required maxlength="80" placeholder="Enter your full name"></label>
+          <label class="field"><span>Date</span><input id="attendanceDate" type="date" required></label>
+          <label class="field"><span>Time</span><input id="attendanceTime" type="time" required></label>
+          <label class="field"><span>Attendance Photo</span><input id="photoFile" type="file" accept="image/*" required></label>
+          <img id="photoPreview" class="preview hidden" alt="Selected attendance photo">
+          <button class="primary wide" type="submit">Save Attendance</button>
+        </form>
+        <div id="saveMessage" class="status">Your date and time are filled in automatically. You may correct them before saving.</div>
+      </div>
+      <div class="panel">
+        <h2>My Recent Attendance</h2><p class="sub">Entries saved in this browser for this demo.</p>
+        <div id="myRecords" class="tablewrap"></div>
+        <p class="notice">This demo saves data only in this browser. It does not sync to other devices or create a secure central database.</p>
+      </div>
+    </div>
+  </div>
+  <div id="adminView" class="hidden">
+    <div class="statgrid">
+      <div class="stat"><strong id="totalCount">0</strong><span>Total attendance entries</span></div>
+      <div class="stat"><strong id="todayCount">0</strong><span>Entries today</span></div>
+      <div class="stat"><strong id="peopleCount">0</strong><span>Employees recorded</span></div>
+    </div>
+    <div class="panel">
+      <h2>Admin Attendance Monitor</h2><p class="sub">Review attendance entries from all demo accounts using this browser.</p>
+      <div class="table-tools"><input id="searchRecords" placeholder="Search employee name or date..."><button class="secondary" id="exportBtn">Export CSV</button><button class="danger" id="clearBtn">Clear All Records</button></div>
+      <div id="allRecords" class="tablewrap"></div>
+      <p class="notice">Admin records are not password-protected at the storage layer in this standalone prototype. Use a backend with secure authentication, access controls, and cloud storage for production.</p>
+    </div>
+  </div>
+</section>
+<script>
+const USERS = {
+  admin: { password: "S7Admin2026!", role: "admin", name: "Main Admin" },
+  staff: { password: "Staff2026!", role: "employee", name: "Employee Demo" }
+};
+const STORAGE_KEY = "sieteSevenRepairAttendanceDemo";
+let currentUser = null;
+let selectedPhotoData = "";
+const $ = id => document.getElementById(id);
+const today = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+};
+const nowTime = () => {
+  const d = new Date();
+  return `${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`;
+};
+function getRecords(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]")}catch{return []}}
+function setRecords(records){localStorage.setItem(STORAGE_KEY,JSON.stringify(records))}
+function escapeHtml(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function login(user, username){
+  currentUser = {username, ...user};
+  $("loginPage").classList.add("hidden"); $("appPage").classList.remove("hidden");
+  $("roleBadge").textContent = user.role === "admin" ? "Main Admin" : "Employee";
+  $("welcomeText").textContent = `Logged in as ${user.name} (${username})`;
+  $("employeeView").classList.toggle("hidden", user.role === "admin");
+  $("adminView").classList.toggle("hidden", user.role !== "admin");
+  $("employeeName").value = user.role === "employee" ? user.name : "";
+  $("attendanceDate").value = today(); $("attendanceTime").value = nowTime();
+  renderMyRecords(); renderAdmin();
+}
+$("loginForm").addEventListener("submit", e=>{
+  e.preventDefault();
+  const username = $("username").value.trim();
+  const password = $("password").value;
+  const user = USERS[username];
+  if(!user || user.password !== password){$("loginError").textContent="Incorrect username or password.";return}
+  $("loginError").textContent=""; login(user,username);
+});
+$("logoutBtn").addEventListener("click",()=>{
+  currentUser=null;selectedPhotoData="";$("photoPreview").classList.add("hidden");
+  $("appPage").classList.add("hidden");$("loginPage").classList.remove("hidden");
+  $("loginForm").reset();$("loginError").textContent="";
+});
+$("photoFile").addEventListener("change",e=>{
+  const file=e.target.files[0]; selectedPhotoData="";
+  if(!file){$("photoPreview").classList.add("hidden");return}
+  if(!file.type.startsWith("image/")){alert("Please select an image file.");e.target.value="";return}
+  if(file.size>2*1024*1024){alert("Please choose an image under 2 MB for this browser demo.");e.target.value="";return}
+  const reader=new FileReader();
+  reader.onload=()=>{selectedPhotoData=reader.result;$("photoPreview").src=selectedPhotoData;$("photoPreview").classList.remove("hidden")};
+  reader.readAsDataURL(file);
+});
+$("attendanceForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  if(!currentUser || currentUser.role!=="employee"){alert("Log in as an employee to record attendance.");return}
+  if(!selectedPhotoData){alert("Please upload an attendance photo.");return}
+  const record={id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),username:currentUser.username,name:$("employeeName").value.trim(),date:$("attendanceDate").value,time:$("attendanceTime").value,photo:selectedPhotoData,createdAt:new Date().toISOString()};
+  const records=getRecords();records.unshift(record);
+  try{setRecords(records)}catch(err){alert("Could not save. The photo may be too large for browser storage. Try a smaller image.");return}
+  $("saveMessage").textContent=`Attendance saved for ${record.name} on ${record.date} at ${record.time}.`;
+  $("photoFile").value="";selectedPhotoData="";$("photoPreview").classList.add("hidden");
+  $("attendanceDate").value=today();$("attendanceTime").value=nowTime();
+  renderMyRecords();renderAdmin();
+});
+function recordsTable(records, adminMode=false){
+  if(!records.length)return '<div class="empty">No attendance records yet.</div>';
+  return `<table><thead><tr>${adminMode?'<th>Photo</th><th>Employee</th><th>Date</th><th>Time</th><th>Account</th><th>Action</th>':'<th>Photo</th><th>Date</th><th>Time</th>'}</tr></thead><tbody>`+
+    records.map(r=>`<tr><td>${r.photo?`<img src="${r.photo}" alt="Attendance photo">`:"—"}</td>${adminMode?`<td>${escapeHtml(r.name)}</td><td>${escapeHtml(r.date)}</td><td>${escapeHtml(r.time)}</td><td>${escapeHtml(r.username)}</td><td><button class="danger" data-delete="${escapeHtml(r.id)}">Delete</button></td>`:`<td>${escapeHtml(r.date)}</td><td>${escapeHtml(r.time)}</td>`}</tr>`).join("")+
+    '</tbody></table>';
+}
+function renderMyRecords(){
+  if(!currentUser)return;
+  const records=getRecords().filter(r=>r.username===currentUser.username);
+  $("myRecords").innerHTML=recordsTable(records.slice(0,10),false);
+}
+function renderAdmin(){
+  if(!currentUser||currentUser.role!=="admin")return;
+  const records=getRecords();const q=$("searchRecords").value.trim().toLowerCase();
+  const filtered=records.filter(r=>`${r.name} ${r.date} ${r.username}`.toLowerCase().includes(q));
+  $("totalCount").textContent=records.length;
+  $("todayCount").textContent=records.filter(r=>r.date===today()).length;
+  $("peopleCount").textContent=new Set(records.map(r=>r.name.trim().toLowerCase()).filter(Boolean)).size;
+  $("allRecords").innerHTML=recordsTable(filtered,true);
+}
+$("searchRecords").addEventListener("input",renderAdmin);
+$("allRecords").addEventListener("click",e=>{
+  const id=e.target.getAttribute("data-delete");if(!id)return;
+  if(!currentUser||currentUser.role!=="admin")return;
+  if(confirm("Delete this attendance record?")){setRecords(getRecords().filter(r=>r.id!==id));renderAdmin();renderMyRecords()}
+});
+$("clearBtn").addEventListener("click",()=>{
+  if(currentUser?.role!=="admin")return;
+  if(confirm("Permanently clear every attendance record saved in this browser?")){setRecords([]);renderAdmin();renderMyRecords()}
+});
+$("exportBtn").addEventListener("click",()=>{
+  if(currentUser?.role!=="admin")return;
+  const records=getRecords();const quote=v=>`"${String(v??"").replace(/"/g,'""')}"`;
+  const csv=[["Employee","Username","Date","Time","Photo included"],...records.map(r=>[r.name,r.username,r.date,r.time,r.photo?"Yes":"No"])].map(row=>row.map(quote).join(",")).join("\r\n");
+  const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8;"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="siete-seven-attendance.csv";a.click();URL.revokeObjectURL(a.href);
+});
+</script>
+</body>
+</html>
